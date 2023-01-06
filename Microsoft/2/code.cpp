@@ -1,30 +1,26 @@
 class Solution {
 public:
-    string getHint(string secret, string guess) {
-        string hint1="", hint2="";
-        int bulls=0, cows=0;
+    void validCombinations(vector<vector<int>>&combinations, vector<int>&combo, int iter, int selected, int k, int sum, int n){
+        if(sum==n && selected==k){
+            combinations.push_back(combo);
+            return;
+        }
+        if(iter>9 || selected>k) return;
 
-        int digitS[10]={0}, digitG[10]={0};
-        for(int i=0; i<secret.length(); i++){
-            if(secret[i]==guess[i]) bulls++;
-            else{
-                digitS[secret[i]-'0']++;
-                digitG[guess[i]-'0']++;
-            }
-        }
-        for(int i=0; i<10; i++) cows+=min(digitS[i], digitG[i]);
+        //take
+        combo.push_back(iter);
+        validCombinations(combinations, combo, iter+1, selected+1, k, sum+iter, n);
+        //not take
+        combo.pop_back();
+        validCombinations(combinations, combo, iter+1, selected, k, sum, n);
+    }
 
-        if(bulls==0) hint1="0";
-        if(cows==0) hint2="0";
-        while(bulls){
-            hint1=char(bulls%10+'0')+hint1;
-            bulls/=10;
-        }
-        while(cows){
-            hint2=char(cows%10+'0')+hint2;
-            cows/=10;
-        }
-        string hint=hint1+'A'+hint2+'B';
-        return hint;
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> combinations;
+        if(n<(k*(k+1)/2) || n>(9*k-(k*(k-1)/2))) return combinations;
+
+        vector<int> combo;
+        validCombinations(combinations, combo, 1, 0, k, 0, n);
+        return combinations;
     }
 };

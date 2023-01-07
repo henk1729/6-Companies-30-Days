@@ -1,3 +1,5 @@
+## 216. Combination Sum III
+
 1. In this recursive method, we consider all of the subsequences of `1` to `9` and see if any of them satisfies, add it to the answer.
 2. Create a function which updates a vector `combo` depending on whether to take or not take an iterator `iter` ranging from 1-9.
 3. Keep updating the number of selected elements, `selected`, accumulated sum, `sum`.
